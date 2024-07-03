@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <h3 class="page-title register">Portfolio</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="text-start">Symbol</th>
+                        <th class="text-start">Name</th>
+                        <th class="text-end">Shares</th>
+                        <th class="text-end">Price</th>
+                        <th class="text-end">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total_cash = namespace(value=0) %}
+                    {% for purchase in purchases %}
+                    <tr>
+                        <td class="text-start">{{ purchase.stock_symbol }}</td>
+                        <td class="text-start">{{ purchase.stock_symbol }}</td>
+                        <td class="text-end">{{ purchase.stock_shares }}</td>
+                        <td class="text-end">{{ purchase.stock_price | usd }}</td>
+                        <td class="text-end">{{ (purchase.stock_price * purchase.stock_shares) | usd }}</td>
+                        {% set total_cash.value = total_cash.value + (purchase.stock_price * purchase.stock_shares) %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="border-0 fw-bold text-end" colspan="4">Cash</td>
+                        <td class="border-0 text-end">
+                            {% if current_cash %}
+                                {{ current_cash | usd }}
+                                {% set total_cash.value = total_cash.value + current_cash %}
+                            {% else %}
+                                {{ purchases[0]["current_cash"] | usd }}
+                                {% set total_cash.value = total_cash.value + purchases[0]["current_cash"] %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border-0 fw-bold text-end" colspan="4">TOTAL</td>
+                        <td class="border-0 w-bold text-end">{{ total_cash.value | usd }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+{% endblock %}

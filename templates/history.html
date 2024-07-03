@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <h3 class="page-title register">History</h3>
+    <form action="/history" method="get">
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Shares</th>
+                        <th>Price</th>
+                        <th>Transacted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for purchase in purchases %}
+                    <tr>
+                        <td>{{ purchase.stock_symbol }}</td>
+                        <td>{{ purchase.stock_shares }}</td>
+                        <td>{{ purchase.stock_price | usd }}</td>
+                        <td>{{ purchase.purchase_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock %}

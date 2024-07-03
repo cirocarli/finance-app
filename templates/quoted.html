@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quoted
+{% endblock %}
+
+{% block main %}
+    <h3 class="page-title register">Quote</h3>
+    <form action="/quoted" method="get">
+        <div class="section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Symbol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key,value in stock.items() %}
+                        {% set v_number = value | float %}
+                        {% if v_number != 0  %}
+                        <td>{{ v_number | usd}}</td>
+                        {% else %}
+                        <td>{{ value }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock %}
